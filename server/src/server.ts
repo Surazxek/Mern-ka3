@@ -2,6 +2,7 @@ import 'dotenv/config'
 import express, { NextFunction, request, Request, Response } from 'express'
 import { connectDatabase } from './config/db.config';
 import CustomError, { errorHandler } from './middlewares/error-handler.middleware';
+import cookieParser from 'cookie-parser'
 
 
 //importing routes 
@@ -9,7 +10,9 @@ import authRoutes from './routes/auth.routes'
 import userRoutes from './routes/user.routes'
 import brandRoutes from './routes/brand.routes'
 import categoryRoutes from './routes/category.routes'
-
+import productRoutes from './routes/product.routes'
+import wishlistRoutes from './routes/wishlist.route'
+import cartRoutes from './routes/cart.routes'
 const PORT = process.env.PORT;
 const DB_URI = process.env.DB_URI ?? '';
 
@@ -21,6 +24,12 @@ connectDatabase(DB_URI)
 //using middlewares
 app.use(express.json({limit: '5mb'}))
 app.use(express.urlencoded({ limit:'5mb', extended:true}))
+//using cookie parser
+app.use(cookieParser())
+
+//serving uploads as statics file
+app.use('/api/uploads',express.static('uploads/'))
+
 
 app.get('/',(req:Request,res:Response)=>{
     res.status(200).json({
@@ -34,6 +43,9 @@ app.use('/api/auth', authRoutes)
 app.use('/api/user', userRoutes)
 app.use('/api/brand',brandRoutes)
 app.use('/api/category',categoryRoutes)
+app.use('/api/product',productRoutes)
+app.use('/api/wishlist', wishlistRoutes)
+app.use('/api/cart', cartRoutes)
 
 
 app.all('/{*all}', (req:Request,res:Response,next:NextFunction) =>{
@@ -42,6 +54,7 @@ app.all('/{*all}', (req:Request,res:Response,next:NextFunction) =>{
     console.log(message)
     next(err)
 })
+
 
 app.listen( PORT,()=>{
     console.log(`server is running at http://localhost:${PORT}`)

@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose";
 
-const categorySchema = new Schema(
+ const categorySchema = new Schema(
   {
     name: {
       type: String,
@@ -15,6 +15,6 @@ const categorySchema = new Schema(
   { timestamps: true }
 );
 
-const Category = model("category", categorySchema);
+ const Category = model("category", categorySchema);
 
 export default Category;

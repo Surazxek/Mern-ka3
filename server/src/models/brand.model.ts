@@ -8,6 +8,17 @@ const brandSchema = new Schema({
         unique:[true,'Brand name already exist'],
         trim:true
     },
+    logo:{
+        path:{
+            type:String,
+            required: true
+
+        },
+        public_id:{
+            type:String,
+            required: true
+        },
+    },
     description:{
         type:String
     }

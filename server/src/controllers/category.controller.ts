@@ -110,3 +110,4 @@ export const updateCategory = asyncHandler(async(req:Request,res:Response)=>{
     })
 
 })
+
